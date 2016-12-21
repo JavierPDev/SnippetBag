@@ -5,11 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Laravel\Scout\Searchable;
 
 class Snippet extends Model
 {
     use SoftDeletes;
     use Sluggable;
+    use Searchable;
 
     protected $fillable = [
         'text', 'syntax', 'tags', 'title', 'description'

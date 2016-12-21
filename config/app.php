@@ -183,6 +183,10 @@ return [
 
         // Slugs
         Cviebrock\EloquentSluggable\ServiceProvider::class,
+
+        // Search
+        Laravel\Scout\ScoutServiceProvider::class,
+        TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
     ],
 
     /*

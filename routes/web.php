@@ -14,7 +14,7 @@
 Route::get('/', function () {
     if ($user_id = Auth::id())
     {
-      return redirect('/snippets?user='.$user_id);
+      return redirect('/snippets');
     }
     else
     {

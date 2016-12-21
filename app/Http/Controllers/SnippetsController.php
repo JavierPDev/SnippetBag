@@ -1,0 +1,118 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+use App\User;
+use App\Snippet;
+use App\Http\Requests;
+
+class SnippetsController extends Controller
+{
+    const PAGE_SIZE = 10;
+
+    public function __construct()
+    {
+      $this->middleware('auth', ['except' => ['show']]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+      $user_id = $request->input('user');
+      // $snippets = User::find($user_id)->snippets()->orderBy('created_at', 'desc')->paginate(5);
+      $snippets = Snippet::whereUserId($user_id)
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(self::PAGE_SIZE)
+                    ->appends($request->input());
+
+      return view('snippets.index', compact('snippets'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+      return view('snippets.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Requests\SnippetWriteRequest $request)
+    {
+      $snippet = $request->all();
+
+      if ($file = $request->file('file'))
+      {
+        $snippet['text'] = file_get_contents($file->getRealPath());
+      }
+
+      $id = Auth::user()->snippets()->create($snippet)->id;
+
+      return redirect('/snippets/'.$id);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+      $snippet = Snippet::findOrFail($id);
+      $back = url()->previous();
+
+      return view('snippets.show', compact('snippet', 'back'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+      Snippet::find($id)->delete();
+      $user_id = Auth::id();
+
+      return redirect("/snippets?user=".$user_id);
+    }
+}

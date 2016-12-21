@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Snippet extends Model
 {
     protected $fillable = [
-        'text', 'syntax', 'tags'
+        'text', 'syntax', 'tags', 'title', 'description'
     ];
 
     public function user()

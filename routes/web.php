@@ -12,9 +12,18 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if ($user_id = Auth::id())
+    {
+      return redirect('/snippets?user='.$user_id);
+    }
+    else
+    {
+      return view('welcome');
+    }
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Route::resource('/snippets', 'SnippetsController');

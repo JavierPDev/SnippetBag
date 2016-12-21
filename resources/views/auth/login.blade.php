@@ -62,6 +62,10 @@
                     </form>
                 </div>
             </div>
+            <center>
+              or <br>
+              <a href="/register">Register</a>
+            </center>
         </div>
     </div>
 </div>

@@ -58,9 +58,9 @@ class SnippetsController extends Controller
         $snippet['text'] = file_get_contents($file->getRealPath());
       }
 
-      $id = Auth::user()->snippets()->create($snippet)->id;
+      $snippet = Auth::user()->snippets()->create($snippet);
 
-      return redirect('/snippets/'.$id);
+      return redirect('/snippets/'.$snippet->slug);
     }
 
     /**

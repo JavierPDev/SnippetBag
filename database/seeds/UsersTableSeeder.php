@@ -14,7 +14,12 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-      $this->delete_seeded_users();
+      try {
+        $this->delete_seeded_users();
+      } catch (Exception $e) {
+        echo 'No users to delete';
+      }
+
       $this->seed_users();
     }
 
@@ -57,14 +62,9 @@ class UsersTableSeeder extends Seeder
     
     private function delete_seeded_users()
     {
-      try {
         User::where('email', 'lincoln@lincoln.com')->firstOrFail()->delete();
         User::where('email', 'washington@washington.com')->firstOrFail()->delete();
         User::where('email', 'roosevelt@roosevelt.com')->firstOrFail()->delete();
         User::where('email', 'kennedy@kennedy.com')->firstOrFail()->delete();
-      } catch (Exception $e) {
-        echo 'No users to delete';
-      }
     }
-    
 }

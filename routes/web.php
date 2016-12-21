@@ -27,3 +27,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 
 Route::resource('/snippets', 'SnippetsController');
+
+Route::get('/user', 'UsersController@edit')->middleware('auth');
+Route::put('/user', 'UsersController@update')->middleware('auth');

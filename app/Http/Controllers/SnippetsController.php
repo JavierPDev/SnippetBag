@@ -87,8 +87,9 @@ class SnippetsController extends Controller
     {
       $snippet = Snippet::whereSlug($slug)->first();
       $back = url()->previous();
+      $user = Auth::user();
 
-      return view('snippets.show', compact('snippet', 'back'));
+      return view('snippets.show', compact('snippet', 'back', 'user'));
     }
 
     /**

@@ -18,6 +18,19 @@
         {!! Form::email('email', $user->email, ['class'=>'form-control']) !!}
       </div>
       <div class="form-group">
+        {!! Form::label('theme', 'Code theme:') !!}
+        {!! Form::select('theme', [
+          null => 'none',
+          'coy' => 'coy',
+          'dark' => 'dark',
+          'funky' => 'funky',
+          'okaida' => 'okaida',
+          'solarizedlight' => 'solarizedlight',
+          'tomorrow' => 'tomorrow',
+          'twilight' => 'twilight',
+        ], $user->theme) !!}
+      </div>
+      <div class="form-group">
         {!! Form::label('password', 'Password:') !!}
         <p>
           {!! Form::password('password', null, ['class'=>'form-control']) !!}

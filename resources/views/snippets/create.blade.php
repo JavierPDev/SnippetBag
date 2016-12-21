@@ -35,9 +35,9 @@
           'css' => 'css',
           'javascript' => 'javascript',
           'markdown' => 'markdown',
-          'c++' => 'cpp'.
+          'cpp' => 'c++',
           'c' => 'c',
-          'c#' => 'csharp',
+          'csharp' => 'c#',
           'ruby' => 'ruby',
           'json' => 'json',
           'apacheconf' => 'apacheconf',

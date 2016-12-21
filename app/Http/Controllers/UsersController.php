@@ -35,6 +35,7 @@ class UsersController extends Controller
       $user = User::findOrFail(Auth::id());
       $user->name = $request->name;
       $user->email = $request->email;
+      $user->theme = $request->theme;
 
       if ($pass = $request->password)
       {

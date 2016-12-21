@@ -66,12 +66,12 @@ class SnippetsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  str  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-      $snippet = Snippet::findOrFail($id);
+      $snippet = Snippet::whereSlug($slug)->first();
       $back = url()->previous();
 
       return view('snippets.show', compact('snippet', 'back'));

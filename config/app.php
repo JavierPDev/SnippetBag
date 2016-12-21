@@ -181,6 +181,8 @@ return [
         // Forms
         Collective\Html\HtmlServiceProvider::class,
 
+        // Slugs
+        Cviebrock\EloquentSluggable\ServiceProvider::class,
     ],
 
     /*

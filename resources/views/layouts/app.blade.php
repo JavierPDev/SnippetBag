@@ -48,7 +48,7 @@
                     <ul class="nav navbar-nav">
                         &nbsp;
                         <li>
-                          <a href="/snippets?user={{Auth::id()}}">View Snippets</a>
+                          <a href="/snippets">View Snippets</a>
                         </li>
                         <li>
                           <a href="/snippets/create">Create Snippet</a>
@@ -68,7 +68,7 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="/snippets?user={{Auth::id()}}">Your snippets</a></li>
+                                    <li><a href="/snippets">Your snippets</a></li>
                                     <li>
                                         <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();

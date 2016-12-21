@@ -25,9 +25,7 @@ class SnippetsController extends Controller
      */
     public function index(Request $request)
     {
-      $user_id = $request->input('user');
-      // $snippets = User::find($user_id)->snippets()->orderBy('created_at', 'desc')->paginate(5);
-      $snippets = Snippet::whereUserId($user_id)
+      $snippets = Snippet::whereUserId(Auth::id())
                     ->orderBy('created_at', 'desc')
                     ->paginate(self::PAGE_SIZE)
                     ->appends($request->input());

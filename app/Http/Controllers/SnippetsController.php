@@ -95,18 +95,11 @@ class SnippetsController extends Controller
     public function show(Request $request, $slug)
     {
       $snippet = Snippet::whereSlug($slug)->firstOrFail();
+      $user = Auth::user();
 
-      $not_admin = !Auth::user() || !Auth::user()->is_admin;
-      $not_owner = $snippet->user->id !== Auth::id();
-
-      if (!$snippet->public && $not_admin && $not_owner)
+      if($this->is_unauthorized($snippet, $user, $request))
       {
-          $request->session()->flash('flash_message', 'Not authorized');
-          $request->session()->flash('message_type', 'warning');
-
-          // If they're not logged in they will be redirected yet again
-          // to login page since /snippets is restricted
-          return redirect('/snippets');
+        return redirect('/snippets');
       }
 
       $back = url()->previous();
@@ -141,20 +134,51 @@ class SnippetsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
       $snippet = Snippet::findOrFail($id);
+      $user = Auth::user();
 
-      if ($snippet->user->id !== Auth::id() && !Auth::user()->is_admin)
+      if($this->is_unauthorized($snippet, $user, $request))
       {
-        return back();
+        return redirect('/snippets');
       }
 
       $snippet->delete();
 
+      $request->session()->flash('flash_message', 'Deleted snippet');
+      $request->session()->flash('message_type', 'info');
+
       return redirect("/snippets");
+    }
+
+    /**
+     * Check if user is authorized for operation.
+     *
+     * @param  \App\Snippet  $snippet
+     * @param  \App\User  $user
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    private function is_unauthorized($snippet, $user, $request)
+    {
+      $not_admin = !$user || !$user->is_admin;
+      $not_owner = $snippet->user->id !== $user['id'];
+
+      if (!$snippet->public && $not_admin && $not_owner)
+      {
+          $request->session()->flash('flash_message', 'Not authorized');
+          $request->session()->flash('message_type', 'warning');
+
+          // If they're not logged in they will be redirected yet again
+          // to login page since /snippets is restricted
+          return true;
+      }
+
+      return false;
     }
 }

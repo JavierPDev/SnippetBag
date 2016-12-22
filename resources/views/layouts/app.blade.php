@@ -88,6 +88,13 @@
             </div>
         </nav>
 
+        @if (Session::has('flash_message'))
+          <br>
+          <div class="alert alert-{{Session::get('message_type')}}">
+            {{Session::get('flash_message')}}
+          </div>
+        @endif
+
         @yield('content')
     </div>
 

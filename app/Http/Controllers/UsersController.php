@@ -18,9 +18,8 @@ class UsersController extends Controller
     public function edit()
     {
       $user = Auth::user();
-      $updated = null;
 
-      return view('users.edit', compact('user', 'updated'));
+      return view('users.edit', compact('user'));
     }
 
     /**
@@ -44,8 +43,9 @@ class UsersController extends Controller
 
       $user->update();
 
-      $updated = true;
+      $request->session()->flash('flash_message', 'User updated successfully');
+      $request->session()->flash('message_type', 'success');
 
-      return view('users.edit', compact('user', 'updated'));
+      return view('users.edit', compact('user'));
     }
 }

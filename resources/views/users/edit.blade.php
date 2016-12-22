@@ -50,12 +50,5 @@
         </ul>
       </div>
     @endif
-
-    @if ($updated)
-      <br>
-      <div class="alert alert-success">
-        User updated successfully.
-      </div>
-    @endif
   </div>
 @endsection

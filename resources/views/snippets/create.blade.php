@@ -11,16 +11,16 @@
     !!}
       <div class="form-group">
         {!! Form::label('title', 'Title:') !!}
-        {!! Form::text('title', null, ['class'=>'form-control']) !!}
+        {!! Form::text('title', old('title'), ['class'=>'form-control']) !!}
       </div>
       <div class="form-group">
         {!! Form::label('description', 'Description:') !!}
-        {!! Form::textarea('description', null, ['class'=>'form-control', 'style'=>'height: 50px;']) !!}
+        {!! Form::textarea('description', old('description'), ['class'=>'form-control', 'style'=>'height: 50px;']) !!}
       </div>
       <div class="form-group">
         {!! Form::label('text', 'Snippet:') !!}
         <p>
-          {!! Form::textarea('text', null, ['class'=>'form-control', 'id'=>'snippet']) !!}
+          {!! Form::textarea('text', old('text'), ['class'=>'form-control', 'id'=>'snippet']) !!}
         </p>
       </div>
       <div class="form-group">
@@ -60,6 +60,7 @@
     {!! Form::close() !!}
 
     @if (count($errors))
+      <br>
       <div class="alert alert-danger">
         <ul>
           @foreach ($errors->all() as $error)

@@ -66,10 +66,18 @@ class SnippetsController extends Controller
     public function store(Requests\SnippetWriteRequest $request)
     {
       $snippet = $request->all();
+      $file = $request->file('file');
 
-      if ($file = $request->file('file'))
+      if ($file)
       {
         $snippet['text'] = file_get_contents($file->getRealPath());
+      }
+      if (!$file && !$snippet['text'])
+      {
+        $request->session()->flash('flash_message', 'Snippet is required');
+        $request->session()->flash('message_type', 'danger');
+
+        return redirect('/snippets/create')->withInput();
       }
 
       $snippet = Auth::user()->snippets()->create($snippet);

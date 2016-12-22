@@ -42,6 +42,7 @@ class SnippetWriteRequest extends FormRequest
           'title'=>'required|max:50',
           'description'=>'max:150',
           'file'=>'max:120',
+          'text'=>'max:25000'
         ];
     }
 }

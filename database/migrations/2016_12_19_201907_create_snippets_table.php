@@ -23,7 +23,7 @@ class CreateSnippetsTable extends Migration
                   ->onDelete('cascade');
             $table->text('text');
             $table->string('syntax')->default('txt');
-            $table->boolean('public')->default('false');
+            $table->boolean('public')->default(false);
             $table->timestamps();
         });
     }

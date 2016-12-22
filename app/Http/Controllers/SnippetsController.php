@@ -96,12 +96,17 @@ class SnippetsController extends Controller
     {
       $snippet = Snippet::whereSlug($slug)->firstOrFail();
 
-      if ((!$snippet->public && (!Auth::user() || $snippet->user->id !== Auth::id() && !Auth::user()->is_admin)))
-      {
-        $request->session()->flash('flash_message', 'Not authorized');
-        $request->session()->flash('message_type', 'warning');
+      $not_admin = !Auth::user() || !Auth::user()->is_admin;
+      $not_owner = $snippet->user->id !== Auth::id();
 
-        return redirect('/snippets');
+      if (!$snippet->public && $not_admin && $not_owner)
+      {
+          $request->session()->flash('flash_message', 'Not authorized');
+          $request->session()->flash('message_type', 'warning');
+
+          // If they're not logged in they will be redirected yet again
+          // to login page since /snippets is restricted
+          return redirect('/snippets');
       }
 
       $back = url()->previous();

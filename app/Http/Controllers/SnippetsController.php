@@ -15,7 +15,7 @@ class SnippetsController extends Controller
 
     public function __construct()
     {
-      $this->middleware('auth', ['except' => ['show']]);
+      $this->middleware('auth')->except('show');
     }
 
     /**
@@ -88,14 +88,24 @@ class SnippetsController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  Request  $request
      * @param  str  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show(Request $request, $slug)
     {
-      $snippet = Snippet::whereSlug($slug)->first();
+      $snippet = Snippet::whereSlug($slug)->firstOrFail();
+
+      if ((!$snippet->public && (!Auth::user() || $snippet->user->id !== Auth::id() && !Auth::user()->is_admin)))
+      {
+        $request->session()->flash('flash_message', 'Not authorized');
+        $request->session()->flash('message_type', 'warning');
+
+        return redirect('/snippets');
+      }
+
       $back = url()->previous();
-      $user = Auth::user();
+      $user = $snippet->user;
 
       return view('snippets.show', compact('snippet', 'back', 'user'));
     }
@@ -131,9 +141,15 @@ class SnippetsController extends Controller
      */
     public function destroy($id)
     {
-      Snippet::find($id)->delete();
-      $user_id = Auth::id();
+      $snippet = Snippet::findOrFail($id);
 
-      return redirect("/snippets?user=".$user_id);
+      if ($snippet->user->id !== Auth::id() && !Auth::user()->is_admin)
+      {
+        return back();
+      }
+
+      $snippet->delete();
+
+      return redirect("/snippets");
     }
 }

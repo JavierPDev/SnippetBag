@@ -14,7 +14,7 @@ class AddThemeColumnToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-          $table->string('theme');
+          $table->string('theme')->nullable()->default(null);
         });
     }
 

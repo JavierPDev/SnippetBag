@@ -15,6 +15,11 @@
     {!! $snippets->render() !!}
   </center>
 
+  @if (!count($snippets))
+    <br>
+    <div class="alert alert-info">You have no snippets yet</div>
+  @endif
+
   @foreach ($snippets as $snippet)
     <div>
       <h4>{{$snippet->title}}</h4>

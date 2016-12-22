@@ -18,6 +18,10 @@ class UserWriteRequest extends FormRequest
       {
         return false;
       }
+      if ($this->id && (Auth::id() !== $this->id) && !Auth::user()->is_admin)
+      {
+        return false;
+      }
 
       return true;
     }

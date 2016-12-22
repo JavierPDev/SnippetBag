@@ -25,6 +25,12 @@ class UsersTableSeeder extends Seeder
 
     private function seed_users()
     {
+      $admin = User::create([
+        'name'=>'admin',
+        'email'=>'admin@admin.com',
+        'password'=> bcrypt('admin'),
+        'is_admin'=> true,
+      ]);
       $lincoln = User::create([
         'name'=>'Abraham Lincoln',
         'email'=>'lincoln@lincoln.com',
@@ -62,6 +68,7 @@ class UsersTableSeeder extends Seeder
     
     private function delete_seeded_users()
     {
+        User::where('email', 'admin@admin.com')->firstOrFail()->delete();
         User::where('email', 'lincoln@lincoln.com')->firstOrFail()->delete();
         User::where('email', 'washington@washington.com')->firstOrFail()->delete();
         User::where('email', 'roosevelt@roosevelt.com')->firstOrFail()->delete();

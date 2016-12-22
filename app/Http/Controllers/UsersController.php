@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\User;
+use App\Http\Requests;
 
 class UsersController extends Controller
 {
@@ -29,7 +30,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Requests\UserWriteRequest $request)
     {
       $user = User::findOrFail(Auth::id());
       $user->name = $request->name;

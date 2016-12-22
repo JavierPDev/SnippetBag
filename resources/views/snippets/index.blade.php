@@ -5,7 +5,11 @@
     <h1>Snippets</h1>
 
     <form method="get" action="/snippets">
-      <input type="search" name="search_term" class="form-control" value="{{$search_term}}">
+      <input type="search"
+        name="search_term"
+        placeholder="Search"
+        class="form-control"
+        value="{{$search_term}}">
     </form>
     
     {!! $snippets->render() !!}

@@ -1,29 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
-  <div style="width: 60%; margin: auto;">
-    <h1>Snippets</h1>
+  <h1>Snippets</h1>
 
-    <form method="get" action="/snippets">
-      <input type="search"
-        name="search_term"
-        placeholder="Search"
-        class="form-control"
-        value="{{$search_term}}">
-    </form>
-    
+  <form method="get" action="/snippets">
+    <input type="search"
+      name="search_term"
+      placeholder="Search"
+      class="form-control"
+      value="{{$search_term}}">
+  </form>
+  
+  <center>
     {!! $snippets->render() !!}
+  </center>
 
-    @foreach ($snippets as $snippet)
-      <div>
-        <h4>{{$snippet->title}}</h4>
-        <h5>Added on {{$snippet->created_at}}</h5>
-        <p>{{$snippet->description}}</p>
-        <a href="/snippets/{{$snippet->slug}}">View</a>
-      </div>
-      <br>
-    @endforeach
+  @foreach ($snippets as $snippet)
+    <div>
+      <h4>{{$snippet->title}}</h4>
+      <h5>Added on {{$snippet->created_at}}</h5>
+      <p>{{$snippet->description}}</p>
+      <a href="/snippets/{{$snippet->slug}}">View</a>
+    </div>
+    <br>
+  @endforeach
 
+  <center>
     {!! $snippets->render() !!}
-  </div>
+  </center>
 @endsection

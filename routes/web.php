@@ -24,6 +24,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/auth/google', 'Auth\SocialAuthController@redirectToProvider');
+Route::get('/auth/google/callback', 'Auth\SocialAuthController@handleProviderCallback');
+
 Route::get('/home', 'HomeController@index');
 
 Route::resource('/snippets', 'SnippetsController');

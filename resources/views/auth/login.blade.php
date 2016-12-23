@@ -60,6 +60,15 @@
                             </div>
                         </div>
                     </form>
+
+                    <hr>
+                    
+                    <center>
+                      <a class="btn btn-default" href="/auth/google">
+                        <i class="fa fa-google"></i> 
+                        Login with Google
+                      </a>
+                    </center>
                 </div>
             </div>
             <center>

@@ -14,7 +14,7 @@ class Snippet extends Model
     use Searchable;
 
     protected $fillable = [
-        'text', 'syntax', 'tags', 'title', 'description'
+        'text', 'syntax', 'tags', 'title', 'description', 'public',
     ];
 
     public function user()

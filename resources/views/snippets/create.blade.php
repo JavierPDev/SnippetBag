@@ -17,6 +17,13 @@
       {!! Form::textarea('description', old('description'), ['class'=>'form-control', 'style'=>'height: 50px;']) !!}
     </div>
     <div class="form-group">
+      {!! Form::label('public', 'Public:') !!}
+      {!! Form::select('public', [
+        false => 'No',
+        true => 'Yes',
+      ]) !!}
+    </div>
+    <div class="form-group">
       {!! Form::label('text', 'Snippet:') !!}
       <p>
         {!! Form::textarea('text', old('text'), ['class'=>'form-control', 'id'=>'snippet']) !!}

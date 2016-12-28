@@ -25,6 +25,8 @@
       <h4>{{$snippet->title}}</h4>
       <h5>Added on {{$snippet->created_at}}</h5>
       <p>{{$snippet->description}}</p>
+      <small>{{$snippet->syntax}}</small>
+      <br>
       <a href="/snippets/{{$snippet->slug}}">View</a>
     </div>
     <br>

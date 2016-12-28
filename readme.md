@@ -7,6 +7,8 @@ This project was built using:
 * Socialite for google oauth2
 * Eloquent Sluggable for url slugs
 
+## Live Site
+[See it in action](http://snippetbag.herokuapp.com/)
 
 ## Installation
 

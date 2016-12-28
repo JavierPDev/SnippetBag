@@ -89,12 +89,11 @@ class SnippetsController extends Controller
      * Display the specified resource.
      *
      * @param  Request  $request
-     * @param  str  $slug
+     * @param  \App\Snippet $snippet
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $slug)
+    public function show(Request $request, Snippet $snippet)
     {
-      $snippet = Snippet::whereSlug($slug)->firstOrFail();
       $user = Auth::user();
 
       if($this->is_unauthorized($snippet, $user, $request))
@@ -135,12 +134,11 @@ class SnippetsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Snippet $snippet
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, Snippet $snippet)
     {
-      $snippet = Snippet::findOrFail($id);
       $user = Auth::user();
 
       if($this->is_unauthorized($snippet, $user, $request))

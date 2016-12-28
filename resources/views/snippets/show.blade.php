@@ -13,7 +13,7 @@
   <pre class="line-numbers code-view"><code class="language-{{$snippet->syntax}}">{{$snippet->text}}</code></pre>
 
   @if (Auth::user() && (Auth::user()->is_admin || Auth::id() == $snippet->user->id))
-    {!! Form::open(['method'=>'delete', 'action'=>['SnippetsController@destroy', $snippet->id]]) !!}
+    {!! Form::open(['method'=>'delete', 'action'=>['SnippetsController@destroy', $snippet->slug]]) !!}
       {!! Form::submit('Delete Snippet', ['class'=>'btn btn-danger pull-right']) !!}
     {!! Form::close() !!}
   @endif

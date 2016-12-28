@@ -17,6 +17,19 @@ class Snippet extends Model
         'text', 'syntax', 'tags', 'title', 'description', 'public',
     ];
 
+    /**
+     * Return true if snippet can be viewed by input user
+     *
+     * @param  App\User  $user
+     * @return bool
+     */
+    public function canBeViewedBy($user)
+    {
+      return $this->public || 
+        ($user && ($user->is_admin || $user->id === $this->user_id));
+    }
+    
+
     public function user()
     {
       return $this->belongsTo('App\User');

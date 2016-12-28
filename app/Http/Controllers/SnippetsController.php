@@ -96,9 +96,9 @@ class SnippetsController extends Controller
     {
       $user = Auth::user();
 
-      if($this->is_unauthorized($snippet, $user, $request))
+      if(!$snippet->canBeViewedBy($user))
       {
-        return redirect('/snippets');
+        abort('401');
       }
 
       $back = url()->previous();
@@ -141,10 +141,7 @@ class SnippetsController extends Controller
     {
       $user = Auth::user();
 
-      if($this->is_unauthorized($snippet, $user, $request))
-      {
-        return redirect('/snippets');
-      }
+      $this->authorize('delete', $snippet);
 
       $snippet->delete();
 
@@ -152,31 +149,5 @@ class SnippetsController extends Controller
       $request->session()->flash('message_type', 'info');
 
       return redirect("/snippets");
-    }
-
-    /**
-     * Check if user is authorized for operation.
-     *
-     * @param  \App\Snippet  $snippet
-     * @param  \App\User  $user
-     * @param  \Illuminate\Http\Request  $request
-     * @return bool
-     */
-    private function is_unauthorized($snippet, $user, $request)
-    {
-      $not_admin = !$user || !$user->is_admin;
-      $not_owner = $snippet->user->id !== $user['id'];
-
-      if (!$snippet->public && $not_admin && $not_owner)
-      {
-          $request->session()->flash('flash_message', 'Not authorized');
-          $request->session()->flash('message_type', 'warning');
-
-          // If they're not logged in they will be redirected yet again
-          // to login page since /snippets is restricted
-          return true;
-      }
-
-      return false;
     }
 }

@@ -3,13 +3,15 @@
 @section('content')
   <h1>Snippets</h1>
 
-  <form method="get" action="/snippets">
-    <input type="search"
-      name="search_term"
-      placeholder="Search"
-      class="form-control"
-      value="{{$search_term}}">
-  </form>
+  @if ($is_admin_route)
+    <form method="get" action="/admin/snippets">
+      <input type="search"
+        name="search_term"
+        placeholder="Search"
+        class="form-control"
+        value="{{$search_term}}">
+    </form>
+  @endif
   
   <center>
     {!! $snippets->render() !!}

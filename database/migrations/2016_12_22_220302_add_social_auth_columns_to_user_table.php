@@ -32,7 +32,7 @@ class AddSocialAuthColumnsToUserTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
           $table->dropColumn('social_id');
-          $table->dropColumn('socia_type');
+          $table->dropColumn('social_type');
         });
     }
 }

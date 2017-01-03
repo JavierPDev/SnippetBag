@@ -25,26 +25,17 @@ class SnippetsController extends Controller
      */
     public function index(Request $request)
     {
-      if ($search_term = $request->search_term)
-      {
-        // TODO: Where clause does not take effect. Seems to be a problem with
-        //        laravel scout. See:
-        // http://laravel.io/forum/12-07-2016-laravel-scout-where-clause-not-working-as-expected
-        $snippets = Snippet::search($search_term)
-                      ->where('user_id', Auth::id())
-                      ->orderBy('created_at', 'desc')
-                      ->paginate(self::PAGE_SIZE)
-                      ->appends($request->input());
-      }
-      else
-      {
-        $snippets = Snippet::whereUserId(Auth::id())
-                      ->orderBy('created_at', 'desc')
-                      ->paginate(self::PAGE_SIZE)
-                      ->appends($request->input());
-      }
+      $snippets = Snippet::whereUserId(Auth::id())
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(self::PAGE_SIZE)
+                    ->appends($request->input());
 
-      return view('snippets.index', compact('snippets', 'search_term'));
+      $search_term = null;
+      $is_admin_route = false;
+
+      $request->session()->put('redirect', '/snippets');
+
+      return view('snippets.index', compact('snippets', 'search_term', 'is_admin_route'));
     }
 
     /**
@@ -139,8 +130,6 @@ class SnippetsController extends Controller
      */
     public function destroy(Request $request, Snippet $snippet)
     {
-      $user = Auth::user();
-
       $this->authorize('delete', $snippet);
 
       $snippet->delete();
@@ -148,6 +137,8 @@ class SnippetsController extends Controller
       $request->session()->flash('flash_message', 'Deleted snippet');
       $request->session()->flash('message_type', 'info');
 
-      return redirect("/snippets");
+      $redirect = $request->session()->pull('redirect', null);
+
+      return redirect($redirect);
     }
 }

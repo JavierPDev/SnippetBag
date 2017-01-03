@@ -5,7 +5,7 @@
 
   {!! Form::open([
     'method'=>'put',
-    'action'=>['UsersController@update'],
+    'action'=>['UsersController@update', $user->slug],
     'files'=>true]) 
   !!}
     <div class="form-group">
@@ -38,6 +38,10 @@
     <div>
       {!! Form::submit('Save', ['class'=>'btn btn-success']) !!}
     </div>
+  {!! Form::close() !!}
+
+  {!! Form::open(['method'=>'delete', 'action'=>['UsersController@destroy', $user->slug]]) !!}
+    {!! Form::submit('Delete User', ['class'=>'btn btn-danger pull-right']) !!}
   {!! Form::close() !!}
 
   @if (count($errors))

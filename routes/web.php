@@ -11,8 +11,9 @@
 |
 */
 
+// Index
 Route::get('/', function () {
-    if ($user_id = Auth::id())
+    if (Auth::user())
     {
       return redirect('/snippets');
     }
@@ -22,14 +23,25 @@ Route::get('/', function () {
     }
 });
 
-Auth::routes();
+// Home
+Route::get('/home', 'HomeController@index');
 
+// Auth routes
+Auth::routes();
 Route::get('/auth/google', 'Auth\SocialAuthController@redirectToProvider');
 Route::get('/auth/google/callback', 'Auth\SocialAuthController@handleProviderCallback');
 
-Route::get('/home', 'HomeController@index');
-
+// Snippets
 Route::resource('/snippets', 'SnippetsController');
 
+// Users
 Route::get('/user', 'UsersController@edit')->middleware('auth');
-Route::put('/user', 'UsersController@update')->middleware('auth');
+Route::put('/users/{user}', 'UsersController@update')->middleware('auth');
+Route::delete('/users/{user}', 'UsersController@destroy');
+
+// Admin
+Route::group(['middleware'=>'check_admin'], function() {
+  Route::get('/admin/snippets', 'AdminController@snippet_index');
+  Route::get('/admin/users', 'AdminController@user_index');
+  Route::get('/admin/users/{user}', 'AdminController@user_edit');
+});
